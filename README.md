@@ -73,7 +73,7 @@ npm run typecheck   # tsc --noEmit
 npm run lint        # eslint
 npm run test        # vitest — 66 deterministic tests
 npm run build       # production build
-npm run verify:live # 135 real HTTP checks against a running deployment
+npm run verify:live # 140 real HTTP checks against a running deployment
 ```
 
 ### Install on everything

@@ -100,7 +100,7 @@ pnpm dev
 node scripts/verify-live.mjs http://localhost:3000
 ```
 
-This performs 135 real HTTP checks — create, read back, update, analyse, an MCP
+This performs 140 real HTTP checks — create, read back, update, analyse, an MCP
 mutation with idempotent replay, integrity replay, export, join-by-QR, and
 deletion. It keeps a cookie jar, so it exercises ownership properly.
 
