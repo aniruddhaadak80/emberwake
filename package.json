@@ -1,0 +1,48 @@
+{
+    "name":  "emberwake",
+    "version":  "0.1.0",
+    "private":  true,
+    "scripts":  {
+                    "dev":  "next dev",
+                    "build":  "next build",
+                    "start":  "next start",
+                    "lint":  "eslint",
+                    "typecheck":  "tsc --noEmit",
+                    "test":  "vitest run",
+                    "test:watch":  "vitest",
+                    "verify:live":  "node scripts/verify-live.mjs"
+                },
+    "engines":  {
+                    "node":  "\u003e=22"
+                },
+    "dependencies":  {
+                         "next":  "16.3.8",
+                         "react":  "19.2.8",
+                         "react-dom":  "19.2.8",
+"three":  "^0.186.1",
+        "framer-motion":  "^13.5.0",
+                         "lucide-react":  "^1.49.0",
+                         "zod":  "^4.6.5",
+                         "@neondatabase/serverless":  "^1.2.0",
+                         "@electric-sql/pglite":  "^0.5.8",
+                         "qrcode":  "^1.5.4",
+                         "clsx":  "^2.1.1",
+                         "tailwind-merge":  "^3.7.0",
+                         "@capacitor/core":  "^8.5.2",
+                         "@huggingface/transformers":  "^4.3.0"
+                     },
+    "devDependencies":  {
+                            "typescript":  "^5",
+                            "@types/node":  "^22",
+                            "@types/react":  "^19",
+"@types/react-dom":  "^19",
+                        "@types/three":  "^0.186.0",
+                        "@types/qrcode":  "^1.5.6",
+                            "eslint":  "^9",
+                            "eslint-config-next":  "16.3.8",
+                            "tailwindcss":  "^4",
+                            "@tailwindcss/postcss":  "^4",
+                            "vitest":  "^5.0.3",
+                            "@capacitor/cli":  "^8.5.2"
+                        }
+}

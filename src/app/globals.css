@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+/*
+  Emberwake design tokens.
+
+  Visual system: a tidal night watch. Deep teal-black water, an ember-lit
+  beacon, brass fittings and fog. The 3D stage is full-bleed and dark; every
+  panel is a translucent "instrument" slab that floats over it, which is what
+  keeps the layout rhythm different from a card grid.
+*/
+
+@theme {
+  /* Tidal darks — background and surfaces */
+  --color-tide-950: #030d14;
+  --color-tide-900: #061722;
+  --color-tide-850: #0a1f2c;
+  --color-tide-800: #0e2836;
+  --color-tide-700: #153443;
+  --color-tide-600: #1e4657;
+
+  /* Ember — the lit signal */
+  --color-ember-700: #b8451a;
+  --color-ember-600: #d95a22;
+  --color-ember-500: #ff7a3d;
+  --color-ember-400: #ff935c;
+  --color-ember-300: #ffb083;
+
+  /* Brass — structure and rules */
+  --color-brass-600: #b98a2e;
+  --color-brass-500: #d9a441;
+  --color-brass-400: #f0c674;
+
+  /* Fog — text on dark */
+  --color-fog-050: #eef5f7;
+  --color-fog-200: #c3d3da;
+  --color-fog-400: #8fa5af;
+  --color-fog-600: #5d747f;
+
+  /* Participation signals */
+  --color-reached: #34d399;
+  --color-leftout: #fb7185;
+
+  --font-display: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-martian-mono), ui-monospace, monospace;
+
+  --radius-slab: 1.25rem;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-tide-950);
+    color: var(--color-fog-050);
+    font-family: var(--font-display);
+    /* A faint vertical swell so the page never reads as flat black. */
+    background-image:
+      radial-gradient(
+        120% 80% at 50% -10%,
+        rgba(255, 122, 61, 0.1) 0%,
+        transparent 60%
+      ),
+      linear-gradient(180deg, #061722 0%, #030d14 55%, #030d14 100%);
+    background-attachment: fixed;
+  }
+
+  /* Keyboard focus must be unmistakable on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-brass-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /*
+    The one repeated surface in the product: a slab that floats above the 3D
+    stage. Named so header, HUD and panels stay visually identical.
+  */
+  .slab {
+    background: color-mix(in oklab, var(--color-tide-900) 78%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-brass-500) 22%, transparent);
+    border-radius: var(--radius-slab);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .slab-flat {
+    background: color-mix(in oklab, var(--color-tide-900) 92%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-brass-500) 18%, transparent);
+    border-radius: var(--radius-slab);
+  }
+
+  /* Data labels: wide tracking, small, always mono. */
+  .datalabel {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-fog-400);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    padding: 0.625rem 1.125rem;
+    transition:
+      background-color 140ms ease,
+      color 140ms ease,
+      border-color 140ms ease,
+      opacity 140ms ease;
+    cursor: pointer;
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-ember {
+    background: var(--color-ember-500);
+    color: #22100a;
+  }
+
+  .btn-ember:hover:not(:disabled) {
+    background: var(--color-ember-400);
+  }
+
+  .btn-ghost {
+    border: 1px solid color-mix(in oklab, var(--color-brass-500) 34%, transparent);
+    color: var(--color-fog-050);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    border-color: var(--color-brass-400);
+    background: color-mix(in oklab, var(--color-ember-500) 12%, transparent);
+  }
+
+  .btn-danger {
+    border: 1px solid color-mix(in oklab, var(--color-leftout) 50%, transparent);
+    color: var(--color-leftout);
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-leftout) 14%, transparent);
+  }
+
+  /* Consistent, visible form fields on dark. */
+  .field {
+    width: 100%;
+    background: color-mix(in oklab, var(--color-tide-950) 70%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-brass-500) 28%, transparent);
+    border-radius: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    color: var(--color-fog-050);
+  }
+
+  .field::placeholder {
+    color: var(--color-fog-600);
+  }
+}
+
+/* Respect the OS setting: no decorative motion, but state stays truthful. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

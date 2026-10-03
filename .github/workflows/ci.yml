@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Only cancel superseded runs on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Typecheck, lint, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # `npm ci` installs exactly what the committed lockfile describes, which is
+      # the point of committing it.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: Production build
+        run: npm run build
+        env:
+          # A build must never depend on a live datastore. The app reports itself
+          # degraded without this variable rather than silently using local storage,
+          # and no page prerenders it, so the build succeeds either way.
+          NEXT_PUBLIC_SITE_URL: https://emberwake.vercel.app
+
+  secrets-scan:
+    name: No committed secrets
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Guards the rule that .env values and connection strings must never reach
+      # version control.
+      - name: Fail on committed .env files
+        run: |
+          if git ls-files --error-unmatch .env >/dev/null 2>&1; then
+            echo "::error::A .env file is committed. Remove it."
+            exit 1
+          fi
+          echo "No committed .env files."
+
+      - name: Fail on database URLs or private keys in tracked files
+        run: |
+          # Only inspect files git already tracks, and only text.
+          tracked=$(git ls-files)
+          if grep -nEI '(postgres(ql)?://[^[:space:]]*:[^[:space:]]*@)|-----BEGIN [A-Z ]*PRIVATE KEY-----' \
+               $tracked 2>/dev/null \
+             | grep -v 'scripts/verify-live.mjs' \
+             | grep -v '^\.env\.example:' \
+             | grep -v 'CONTRIBUTING.md'; then
+            echo "::error::A credential-shaped string was found in a tracked file."
+            exit 1
+          fi
+          echo "No credential-shaped strings in tracked files."
+
+      - name: Whitespace and conflict-marker check
+        run: |
+          if git diff --check HEAD~1 HEAD 2>/dev/null || git diff --check; then
+            echo "No whitespace errors."
+          else
+            echo "::error::Whitespace errors found."
+            exit 1
+          fi
+          if git ls-files | xargs grep -nE '^(<<<<<<<|=======|>>>>>>>)' 2>/dev/null; then
+            echo "::error::Conflict markers found."
+            exit 1
+          fi
+          echo "No conflict markers."

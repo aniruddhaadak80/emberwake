@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schema/2025-06-18/server.json",
+  "name": "io.github.aniruddhaadak80/emberwake",
+  "description": "Emberwake — a 3D beacon game for a real family, where the beacon's geometry is literally the fairness metric. Score who reached a round and who was left out with a deterministic, explainable engine.",
+  "version": "1.0.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/aniruddhaadak80/emberwake",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "name": "emberwake-mcp",
+      "version": "1.0.0",
+      "runtimeHint": "node",
+      "environmentVariables": [
+        {
+          "name": "EMBERWAKE_BASE_URL",
+          "description": "Base URL of a running Emberwake deployment, e.g. https://emberwake.vercel.app",
+          "isRequired": true,
+          "isSecret": false
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://emberwake.vercel.app/api/mcp",
+      "note": "JSON-RPC 2.0 over HTTP POST. Send initialize, tools/list and tools/call. Scope follows the Emberwake session cookie."
+    }
+  ]
+}
