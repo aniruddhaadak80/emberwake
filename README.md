@@ -6,9 +6,9 @@
 
 **A 3D beacon game for a real family, where the geometry you can see is generated from the same numbers the report prints.**
 
-[Live app](https://emberwake.vercel.app) · [Source](https://github.com/aniruddhaadak80/emberwake) · [API](https://emberwake.vercel.app/api/health) · [Agent](https://emberwake.vercel.app/agent) · [Issues](https://github.com/aniruddhaadak80/emberwake/issues)
+[Live app](https://emberwake-lyart.vercel.app) · [Source](https://github.com/aniruddhaadak80/emberwake) · [API](https://emberwake-lyart.vercel.app/api/health) · [Agent](https://emberwake-lyart.vercel.app/agent) · [Issues](https://github.com/aniruddhaadak80/emberwake/issues)
 
-[![Live](https://img.shields.io/badge/live-verified-34d399?style=flat-square)](https://emberwake.vercel.app)
+[![Live](https://img.shields.io/badge/live-verified-34d399?style=flat-square)](https://emberwake-lyart.vercel.app)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=flat-square)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000?style=flat-square)](https://nextjs.org)
 [![React Native Web](https://img.shields.io/badge/runs%20on%20every%20device-ff7a3d?style=flat-square)](#install-on-everything)
@@ -22,6 +22,8 @@
 ---
 
 ## The problem nobody writes down
+
+![The Emberwake landing page, and below it the seeded demo round: a 3D beacon whose lit facets come from real fuel, beside a score of 66 and a table showing Aunty Maya and Grandpa Ravi as "left out".](docs/demo-beacon.png)
 
 Family game night has a pattern, and nobody can prove it.
 
@@ -104,7 +106,7 @@ Only one variable is needed, and only for a deployment:
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `DATABASE_URL` | **in production** | Hosted Postgres. A production build without it reports `degraded` on `/api/health` rather than silently writing to a local file. |
-| `NEXT_PUBLIC_SITE_URL` | no | Canonical origin for metadata and QR codes. Defaults to `https://emberwake.vercel.app`. |
+| `NEXT_PUBLIC_SITE_URL` | no | Canonical origin for metadata and QR codes. Defaults to `https://emberwake-lyart.vercel.app`. |
 
 There is **no API key**. Open-Meteo needs none, and Whisper runs client-side.
 
@@ -165,7 +167,7 @@ There is **no API key**. Open-Meteo needs none, and Whisper runs client-side.
 Create a round, contribute, read back:
 
 ```bash
-BASE=https://emberwake.vercel.app
+BASE=https://emberwake-lyart.vercel.app
 
 # Create. The response sets an anonymous session cookie — keep it.
 curl -s -c jar.txt -X POST "$BASE/api/rounds" \
@@ -219,7 +221,7 @@ Errors always use one envelope, and never leak a stack trace or a connection str
 A live MCP-compatible JSON-RPC 2.0 endpoint at **`/api/mcp`**, discoverable via [`public/mcp.json`](public/mcp.json).
 
 ```bash
-BASE=https://emberwake.vercel.app
+BASE=https://emberwake-lyart.vercel.app
 
 curl -s -X POST "$BASE/api/mcp" -H 'content-type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}'

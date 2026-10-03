@@ -18,7 +18,7 @@
       "environmentVariables": [
         {
           "name": "EMBERWAKE_BASE_URL",
-          "description": "Base URL of a running Emberwake deployment, e.g. https://emberwake.vercel.app",
+          "description": "Base URL of a running Emberwake deployment, e.g. https://emberwake-lyart.vercel.app",
           "isRequired": true,
           "isSecret": false
         }
@@ -28,7 +28,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://emberwake.vercel.app/api/mcp",
+      "url": "https://emberwake-lyart.vercel.app/api/mcp",
       "note": "JSON-RPC 2.0 over HTTP POST. Send initialize, tools/list and tools/call. Scope follows the Emberwake session cookie."
     }
   ]

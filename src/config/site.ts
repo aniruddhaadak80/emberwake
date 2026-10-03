@@ -16,10 +16,11 @@ export const ISSUES_URL = `${REPO_URL}/issues`;
 
 /**
  * Canonical live origin. Overridable so preview deployments stay self
- * describing; defaults to the production alias that Phase 7 verifies.
+ * describing; defaults to the production alias that `scripts/verify-live.mjs`
+ * verified.
  */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://emberwake.vercel.app"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://emberwake-lyart.vercel.app"
 ).replace(/\/+$/, "");
 
 export const site = {

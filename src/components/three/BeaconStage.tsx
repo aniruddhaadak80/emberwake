@@ -130,13 +130,19 @@ export default function BeaconStage(props: BeaconStageProps): React.ReactElement
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const clock = new THREE.Clock();
+    // Frame timing via performance.now() rather than THREE.Clock, which is
+    // deprecated in three r186 and logs a console warning on every load.
+    let lastTime = performance.now();
     let elapsed = 0;
 
     const loop = () => {
       if (!state || state.disposed) return;
       state.frame = requestAnimationFrame(loop);
-      const dt = Math.min(clock.getDelta(), 0.05);
+
+      const now = performance.now();
+      // Clamped so a backgrounded tab does not jump the animation on return.
+      const dt = Math.min((now - lastTime) / 1000, 0.05);
+      lastTime = now;
       if (!reduced) elapsed += dt;
 
       const current = propsRef.current;

@@ -46,7 +46,7 @@ jobs:
           # A build must never depend on a live datastore. The app reports itself
           # degraded without this variable rather than silently using local storage,
           # and no page prerenders it, so the build succeeds either way.
-          NEXT_PUBLIC_SITE_URL: https://emberwake.vercel.app
+          NEXT_PUBLIC_SITE_URL: https://emberwake-lyart.vercel.app
 
   secrets-scan:
     name: No committed secrets

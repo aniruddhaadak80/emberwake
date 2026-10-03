@@ -52,3 +52,6 @@ dev*.log
 dev*.err.log
 npm-install.*.log
 verify-local.log
+
+.vercel
+.env*

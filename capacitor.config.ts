@@ -31,7 +31,7 @@ const config: CapacitorConfig = {
   },
   server: {
     // Required so the app can reach the deployed API from a native shell.
-    url: "https://emberwake.vercel.app",
+    url: "https://emberwake-lyart.vercel.app",
     cleartext: false,
   },
   plugins: {
