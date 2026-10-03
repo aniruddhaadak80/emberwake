@@ -50,9 +50,17 @@
   html {
     color-scheme: dark;
     -webkit-text-size-adjust: 100%;
+    /*
+      A full-bleed WebGL canvas must never introduce a horizontal scrollbar on a
+      phone. `clip` rather than `hidden` so it does not create a scroll container.
+      Layout is still fixed properly with min-w-0 on flex and grid children;
+      this is only a backstop.
+    */
+    overflow-x: clip;
   }
 
   body {
+    overflow-x: clip;
     background-color: var(--color-tide-950);
     color: var(--color-fog-050);
     font-family: var(--font-display);

@@ -67,7 +67,7 @@ export function RoundWorkspace() {
       ) : null}
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
+        <div className="min-w-0">
           <p className="datalabel">{total} round(s)</p>
           <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Filter rounds by status">
             {["all", "open", "lit", "closed"].map((value) => (

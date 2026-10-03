@@ -12,8 +12,10 @@ import { navigation, site } from "@/config/site";
 export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-brass-500/15 bg-tide-950">
+      {/* `min-w-0` on every grid child: grid items otherwise refuse to shrink
+          below their max-content width and force horizontal scroll on phones. */}
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
-        <div>
+        <div className="min-w-0">
           <p className="text-base font-semibold text-fog-050">{site.name}</p>
           <p className="mt-2 max-w-xs text-sm text-fog-400">{site.tagline}</p>
           <a
@@ -28,7 +30,7 @@ export function SiteFooter() {
           </a>
         </div>
 
-        <nav aria-label="Footer">
+        <nav aria-label="Footer" className="min-w-0">
           <p className="datalabel">Pages</p>
           <ul className="mt-3 grid gap-2">
             {navigation.map((item) => (
@@ -46,7 +48,7 @@ export function SiteFooter() {
           </ul>
         </nav>
 
-        <div>
+        <div className="min-w-0">
           <p className="datalabel">Open source</p>
           <ul className="mt-3 grid gap-2">
             <li>
