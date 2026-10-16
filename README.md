@@ -189,7 +189,7 @@ curl -s -b jar.txt -X POST "$BASE/api/rounds/$ID/embers" \
 
 # Run the engine.
 curl -s -b jar.txt -X POST "$BASE/api/rounds/$ID/analyze"
-# → { "result": { "version": "beacon-engine-v2026.10.1",
+# → { "result": { "version": "beacon-engine-v2026.10.2",
 #                  "overall": 71.4, "factors": [ …5 items with evidence… ],
 #                  "recommendation": { "headline": "2 people were left out (67% reach)",
 #                                      "actions": [ … ] } }, "seal": "…" }

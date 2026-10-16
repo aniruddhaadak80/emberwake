@@ -7,7 +7,7 @@
  * report route all call `analyzeRound` and nothing else. If a score ever
  * disagrees between two surfaces it is a rendering bug, not a logic fork.
  *
- * Version: beacon-engine-v2026.10.1
+ * Version: beacon-engine-v2026.10.2
  *
  * Design rules
  * ------------
@@ -355,7 +355,10 @@ export function analyzeRound(bundle: RoundBundle, opts: AnalyzeOptions): EngineR
   if (glowPct < 100) {
     actions.push(`${100 - glowPct} more fuel is needed to finish the beacon.`);
   }
-  if (live.length >= 2 && rhythmScore < 60) {
+  // Three contributions are the minimum that yields two gaps, so anything less
+  // is the unmeasured 50 above. Recommending a pacing fix for a round whose
+  // rhythm was never measured would contradict the factor's own evidence.
+  if (live.length >= 3 && rhythmScore < 60) {
     actions.push("Fuel arrived in a burst; spread the next round across the whole session.");
   }
   if (goldenScore < 100 && goldenScore > 0) {

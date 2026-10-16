@@ -95,7 +95,7 @@ export type RoundBundle = {
 /* Deterministic engine                                                */
 /* ------------------------------------------------------------------ */
 
-export const ENGINE_VERSION = "beacon-engine-v2026.10.1" as const;
+export const ENGINE_VERSION = "beacon-engine-v2026.10.2" as const;
 
 export type EngineFactorId =
   | "reach"

@@ -257,6 +257,40 @@ describe("analyzeRound — boundaries", () => {
     expect(regular.scores.rhythm).toBeGreaterThan(irregular.scores.rhythm);
   });
 
+  it("does not report a pacing verdict the rhythm factor declined to make", () => {
+    seq = 0;
+    const a = member("A");
+    const b = member("B");
+
+    // Two contributions give exactly one gap, so regularity is unmeasurable and
+    // the factor honestly says so. The recommendation must not then contradict
+    // that by asserting the fuel arrived in a burst.
+    const result = analyzeRound(bundle([a, b], [ember(a.id, 0, 3, 0), ember(b.id, 1, 3, 120)]), {
+      now: NOW,
+      sky: SKY,
+    });
+
+    expect(result.scores.rhythm).toBe(50);
+    expect(result.factors.find((f) => f.id === "rhythm")?.detail).toMatch(/pacing is unmeasured/i);
+    expect(result.recommendation.actions.join(" ")).not.toMatch(/burst/i);
+  });
+
+  it("still reports a burst once there are enough gaps to measure one", () => {
+    seq = 0;
+    const a = member("A");
+    const b = member("B");
+    const c = member("C");
+
+    // Three contributions, two gaps, and they are wildly uneven.
+    const result = analyzeRound(
+      bundle([a, b, c], [ember(a.id, 0, 3, 0), ember(b.id, 1, 3, 1), ember(c.id, 2, 3, 60)]),
+      { now: NOW, sky: SKY },
+    );
+
+    expect(result.scores.rhythm).toBeLessThan(60);
+    expect(result.recommendation.actions.join(" ")).toMatch(/burst/i);
+  });
+
   it("deliberately measures evenness of gaps, not absolute tempo", () => {
     seq = 0;
     const a = member("A");
