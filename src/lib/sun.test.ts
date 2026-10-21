@@ -115,4 +115,33 @@ describe("skyPalette", () => {
       }
     }
   });
+
+  it("reaches the dusk keyframe when the sun is on its way down", () => {
+    // Altitude alone cannot tell dawn from dusk: the sun rises and sets at the same
+    // altitude, so the phase has to pick the keyframe.
+    const dusk = sunState(SUNRISE, SUNSET, 17 * 60 + 40);
+    expect(dusk?.phase).toBe("dusk");
+    const palette = skyPalette(dusk!.altitude, dusk!.phase);
+    // The dusk horizon (0xc2527a) has to be the nearer of the two ends of the blend.
+    expect(Math.abs(palette.horizon - 0xc2527a)).toBeLessThan(
+      Math.abs(palette.horizon - 0xa8d8e6),
+    );
+    expect(Math.abs(palette.zenith - 0x1a2140)).toBeLessThan(
+      Math.abs(palette.zenith - 0x2f7f9e),
+    );
+  });
+
+  it("does not use the dusk keyframe at sunrise", () => {
+    const dawn = sunState(SUNRISE, SUNSET, 5 * 60 + 50);
+    expect(dawn?.phase).toBe("dawn");
+    const palette = skyPalette(dawn!.altitude, dawn!.phase);
+    expect(Math.abs(palette.horizon - 0xff9a52)).toBeLessThan(
+      Math.abs(palette.horizon - 0xc2527a),
+    );
+  });
+
+  it("keeps the day and night bands unchanged when no phase is given", () => {
+    expect(skyPalette(-0.8)).toEqual(skyPalette(-0.8, null));
+    expect(skyPalette(0.9)).toEqual(skyPalette(0.9, "day"));
+  });
 });
