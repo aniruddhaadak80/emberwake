@@ -504,7 +504,7 @@ function animateSparks(
 }
 
 function applyLighting(state: SceneState, sun: ReturnType<typeof sunState>, activeId: string | null): void {
-  const palette = skyPalette(sun?.altitude ?? -0.5);
+  const palette = skyPalette(sun?.altitude ?? -0.5, sun?.phase ?? null);
 
   const skyMaterial = state.scene.children.find(
     (child) => (child as THREE.Mesh).material instanceof THREE.ShaderMaterial,

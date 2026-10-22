@@ -147,8 +147,8 @@ const DUSK: SkyPalette = {
   beaconContrast: 0.95,
 };
 
-/** Blends the four keyframes by sun altitude. Deterministic and clamped. */
-export function skyPalette(altitude: number): SkyPalette {
+/** Blends the four keyframes by sun altitude and the sun's phase. Deterministic and clamped. */
+export function skyPalette(altitude: number, phase: SunState["phase"] | null = null): SkyPalette {
   const a = Math.max(-1, Math.min(1, altitude));
 
   const mix = (x: number, y: number, t: number) => Math.round(x + (y - x) * t);
@@ -161,10 +161,21 @@ export function skyPalette(altitude: number): SkyPalette {
     beaconContrast: Math.round((p.beaconContrast + (q.beaconContrast - p.beaconContrast) * t) * 100) / 100,
   });
 
+  // Below the horizon the sky is on its way to night, whatever the phase says.
   if (a <= -0.3) return NIGHT;
-  if (a <= 0) return lerpPalette(NIGHT, DAWN, clamp01((a + 0.3) / 0.3));
+  if (a < 0) return lerpPalette(NIGHT, DAWN, clamp01((a + 0.3) / 0.3));
+
+  // At or above the horizon the *phase* decides which keyframe the sky is heading for.
+  // Altitude alone cannot: the sun rises and sets at the same altitude and the arc in
+  // `sunState` is symmetric about noon, so a palette driven by altitude alone paints every
+  // sunrise with the sunset's colours -- and, because the altitude band that was supposed
+  // to reach the dusk keyframe had a blend factor that was negative across the whole band,
+  // it never reached the dusk keyframe at all.
+  if (phase === "dusk") return lerpPalette(DUSK, DAY, clamp01(a / 0.55));
+  if (phase === "dawn") return lerpPalette(DAWN, DAY, clamp01(a / 0.55));
+
+  // No phase to go on: the altitude-only bands.
   if (a < 0.25) return lerpPalette(DAWN, DAY, clamp01(a / 0.25));
-  if (a < 0.55) return lerpPalette(DAY, DUSK, clamp01((a - 0.55) / 0.55));
   return DAY;
 }
 
