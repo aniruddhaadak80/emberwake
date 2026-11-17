@@ -22,7 +22,7 @@
 "three":  "^0.186.1",
         "framer-motion":  "^13.5.0",
                          "lucide-react":  "^1.49.0",
-                         "zod":  "^4.6.5",
+                         "zod":  "^4.6.7",
                          "@neondatabase/serverless":  "^1.2.0",
                          "@electric-sql/pglite":  "^0.5.8",
                          "qrcode":  "^1.5.4",
