@@ -20,7 +20,7 @@
                          "react":  "19.2.8",
                          "react-dom":  "19.2.8",
 "three":  "^0.186.1",
-        "framer-motion":  "^13.5.0",
+        "framer-motion":  "^14.14.0",
                          "lucide-react":  "^1.49.0",
                          "zod":  "^4.6.7",
                          "@neondatabase/serverless":  "^1.2.0",
