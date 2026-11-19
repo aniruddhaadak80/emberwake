@@ -1,0 +1,30 @@
+# Dependabot policy
+#
+# Version updates were never configured, so the only Dependabot runs were the
+# security ones, and a stale red run sat on main until the next alert. Declaring
+# the ecosystems here keeps the schedule predictable and groups the routine
+# bumps into one reviewable PR instead of a flood.
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      npm-minor-patch:
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      actions-minor-patch:
+        update-types:
+          - minor
+          - patch
